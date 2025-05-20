@@ -1,0 +1,123 @@
+use ecommerce;
+
+// Insertar clientes
+db.customers.insertMany([
+  {
+	_id: ObjectId("665032e85ddfd6f2e2f0a001"),
+	name: "Juan Pérez",
+	email: "juan@example.com",
+	phone: "123456789",
+	address: {
+  	street: "Av. Siempre Viva 123",
+  	city: "CDMX",
+  	state: "MX",
+  	postal_code: "01234"
+	},
+	created_at: new Date()
+  }
+]);
+
+// Insertar vendedores
+db.sellers.insertMany([
+  {
+	_id: ObjectId("665032e85ddfd6f2e2f0a002"),
+	name: "TiendaTech",
+	email: "contacto@tiendatech.com",
+	rating: 4.7
+  }
+]);
+
+// Insertar productos
+db.products.insertMany([
+  {
+	_id: ObjectId("665032e85ddfd6f2e2f0a003"),
+	name: "Laptop Dell XPS",
+	description: "13 pulgadas, Intel i7, 16GB RAM",
+	price: 1399.99,
+	category: "Electrónica",
+	stock: 25,
+	seller_id: ObjectId("665032e85ddfd6f2e2f0a002"),
+	created_at: new Date()
+  }
+]);
+
+// Insertar carrito
+db.carts.insertOne({
+  customer_id: ObjectId("665032e85ddfd6f2e2f0a001"),
+  items: [
+	{
+  	product_id: ObjectId("665032e85ddfd6f2e2f0a003"),
+  	quantity: 1
+	}
+  ],
+  updated_at: new Date()
+});
+
+// Insertar pedido
+db.orders.insertOne({
+  customer_id: ObjectId("665032e85ddfd6f2e2f0a001"),
+  order_date: new Date(),
+  status: "completed",
+  items: [
+	{
+  	product_id: ObjectId("665032e85ddfd6f2e2f0a003"),
+  	quantity: 1,
+  	price: 1399.99
+	}
+  ],
+  payment: {
+	method: "credit_card",
+	status: "paid",
+	transaction_id: "txn_001"
+  },
+  shipping: {
+	address: {
+  	street: "Av. Siempre Viva 123",
+  	city: "CDMX",
+  	state: "MX",
+  	postal_code: "01234"
+	},
+	status: "shipped",
+	tracking_number: "TRK12345678"
+  }
+});
+
+// Insertar devolución
+db.returns.insertOne({
+  order_id: ObjectId("665032e85ddfd6f2e2f0a004"),  // cambia por un ID real si quieres
+  product_id: ObjectId("665032e85ddfd6f2e2f0a003"),
+  reason: "Producto defectuoso",
+  status: "refund_issued",
+  created_at: new Date()
+});
+
+// Insertar mensaje
+db.messages.insertOne({
+  from_user: ObjectId("665032e85ddfd6f2e2f0a001"),
+  to_user: ObjectId("665032e85ddfd6f2e2f0a002"),
+  message: "¿Cuándo se enviará el producto?",
+  timestamp: new Date(),
+  order_id: ObjectId("665032e85ddfd6f2e2f0a004")  // opcional
+});
+
+db.orders.insertMany([
+  {
+	order_id: 1,
+	customer: "Alice",
+	total: 99.99,
+	items: [
+  	{ name: "Book", qty: 2, price: 29.99 },
+  	{ name: "Pen", qty: 1, price: 39.99 }
+	],
+	order_date: new Date()
+  },
+  {
+	order_id: 2,
+	customer: "Bob",
+	total: 49.99,
+	items: [
+  	{ name: "Notebook", qty: 3, price: 16.66 }
+	],
+	order_date: new Date()
+  }
+])

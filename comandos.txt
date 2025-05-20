@@ -1,0 +1,34 @@
+# Crear entorno virtual
+python3 -m venv .venv
+source .venv/bin/activate
+pip install pyspark delta-spark
+
+# ----------------------------------------------
+# Ejecutar movies_profile_dataframe.py
+# ----------------------------------------------
+# (Asegúrate de tener el conector de MariaDB)
+python3 movies_profile_dataframe.py
+
+# ----------------------------------------------
+# Ejecutar non_relational_db.py
+# ----------------------------------------------
+# (Asegúrate de tener MongoDB corriendo y accesible)
+python3 non_relational_db.py
+
+# ----------------------------------------------
+# Ejecutar delta_lake_1.py
+# ----------------------------------------------
+spark-submit \
+  --packages io.delta:delta-spark_2.12:3.1.0 \
+  --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+  --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+  delta_lake_1.py
+
+# ----------------------------------------------
+# Ejecutar delta_lake_2.py
+# ----------------------------------------------
+spark-submit \
+  --packages io.delta:delta-spark_2.12:3.1.0 \
+  --conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
+  --conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+  delta_lake_2.py
